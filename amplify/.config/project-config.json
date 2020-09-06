@@ -1,7 +1,4 @@
 {
-  "providers": [
-    "awscloudformation"
-  ],
   "projectName": "nextChatApp",
   "version": "3.0",
   "frontend": "javascript",
@@ -10,8 +7,11 @@
     "config": {
       "SourceDir": "src",
       "DistributionDir": "out",
-      "BuildCommand": "yarn run export",
+      "BuildCommand": "yarn run deploy",
       "StartCommand": "yarn run start"
     }
-  }
+  },
+  "providers": [
+    "awscloudformation"
+  ]
 }
