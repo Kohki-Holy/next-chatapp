@@ -6,6 +6,8 @@ import SendIcon from '@material-ui/icons/Send'
 import styled from 'styled-components'
 
 type Props = {
+  userName: String
+  bodyText: String
   onChange: Function
   onClick: Function
   inputEl: RefObject<HTMLInputElement>
@@ -27,7 +29,13 @@ const Style = styled.div`
     background-color: #eee;
   }
 `
-const ChatBox: React.FC<Props> = ({ onChange, onClick, inputEl }) => {
+const ChatBox: React.FC<Props> = ({
+  userName,
+  bodyText,
+  onChange,
+  onClick,
+  inputEl,
+}) => {
   return (
     <Style>
       <TextField
@@ -37,6 +45,7 @@ const ChatBox: React.FC<Props> = ({ onChange, onClick, inputEl }) => {
         size='small'
         onChange={(e) => onChange(e)}
         inputRef={inputEl}
+        value={userName}
       ></TextField>
       <TextField
         multiline
@@ -46,6 +55,7 @@ const ChatBox: React.FC<Props> = ({ onChange, onClick, inputEl }) => {
         size='small'
         onChange={(e) => onChange(e)}
         rowsMax={4}
+        value={bodyText}
       ></TextField>
       <IconButton
         onClick={() => onClick()}

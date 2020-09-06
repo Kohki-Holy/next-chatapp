@@ -1,0 +1,23 @@
+{
+    "develop": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-nextchatapp-develop-165001-authRole",
+            "UnauthRoleArn": "arn:aws:iam::375181694198:role/amplify-nextchatapp-develop-165001-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::375181694198:role/amplify-nextchatapp-develop-165001-authRole",
+            "Region": "ap-northeast-1",
+            "DeploymentBucketName": "amplify-nextchatapp-develop-165001-deployment",
+            "UnauthRoleName": "amplify-nextchatapp-develop-165001-unauthRole",
+            "StackName": "amplify-nextchatapp-develop-165001",
+            "StackId": "arn:aws:cloudformation:ap-northeast-1:375181694198:stack/amplify-nextchatapp-develop-165001/67629b90-ef4c-11ea-8c45-0a87e55ed34e",
+            "AmplifyAppId": "d2yb3bv108qupz"
+        },
+        "categories": {
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d2yb3bv108qupz",
+                    "type": "cicd"
+                }
+            }
+        }
+    }
+}

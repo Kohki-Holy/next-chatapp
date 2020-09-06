@@ -73,7 +73,13 @@ const IndexPage = () => {
           ))}
         </Box>
         {/* 入力欄コンポーネント */}
-        <ChatBox onChange={onChange} onClick={onClick} inputEl={inputEl} />
+        <ChatBox
+          userName={userName}
+          bodyText={bodyText}
+          onChange={onChange}
+          onClick={onClick}
+          inputEl={inputEl}
+        />
       </Container>
     </Layout>
   )
