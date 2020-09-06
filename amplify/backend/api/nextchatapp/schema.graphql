@@ -1,0 +1,6 @@
+type Chat @model {
+  id: ID!
+  user_name: String!
+  message_text: String
+  created_at: String
+}
