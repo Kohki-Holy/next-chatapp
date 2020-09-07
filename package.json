@@ -10,8 +10,13 @@
     "deploy": "yarn run build && yarn run export"
   },
   "dependencies": {
+    "@aws-amplify/api": "^3.2.1",
+    "@aws-amplify/core": "^3.5.1",
+    "@aws-amplify/pubsub": "^3.1.1",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
+    "aws-amplify": "^3.1.1",
+    "aws-amplify-react": "^4.2.2",
     "dayjs": "^1.8.35",
     "next": "latest",
     "react": "^16.12.0",

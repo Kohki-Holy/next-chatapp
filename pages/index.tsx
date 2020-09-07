@@ -2,33 +2,118 @@ import Layout from '../components/Layout'
 import ChatBox from '../components/ChatBox'
 import Message from '../components/Message'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 import dayjs from 'dayjs'
 import 'dayjs/locale/ja'
 dayjs().locale('ja')
 
+// Material UI コンポーネント
 import { Container, Box } from '@material-ui/core'
 
-const IndexPage = () => {
+// Amplify設定のインポート
+import Amplify from '@aws-amplify/core'
+import API, { graphqlOperation } from '@aws-amplify/api'
+import awsmobile from '../src/aws-exports'
+Amplify.configure(awsmobile)
+API.configure(awsmobile)
+
+// GraphQL用関数
+import {
+  createChat as createChatGraphQL,
+  deleteChat as deleteChatGraphQL,
+} from '../src/graphql/mutations'
+import { getChat, listChats, searchChats } from '../src/graphql/queries'
+import {
+  onCreateChat,
+  onUpdateChat,
+  onDeleteChat,
+} from '../src/graphql/subscriptions'
+import { ListChatsQuery } from '../src/API'
+
+type ChatType = {
+  id: string
+  user_name: string
+  message_text: string
+  created_at: string
+}
+
+type DataProp = {
+  data: {
+    listChats?: {
+      items: Array<ChatType>
+    }
+  }
+}
+
+const ChatApps = () => {
   const [userName, setUserName] = useState('')
   const [bodyText, setBodyText] = useState('')
 
-  const date = dayjs().format()
+  const [messages, setMessages] = useState([])
 
-  const [messages, setMessages] = useState([
-    {
-      userName: 'Bot',
-      text: 'チャットアプリへようこそ！',
-      date,
-    },
-    {
-      userName: 'Bot',
-      text: '名前を入力して送信すると名前が確定されます。',
-      date,
-    },
-  ])
+  // チャットデータ取得
+  useEffect(() => {
+    const querySort = Object.assign(
+      {},
+      {
+        sort: {
+          field: 'created_at', //作成日指定
+          direction: 'asc', //早い順
+        },
+        limit: 100, //デフォルトだと10個までしかとれない
+      }
+    )
+    const init = async () => {
+      try {
+        const res = await API.graphql(graphqlOperation(listChats))
+        const { items: chatlist } = res.data.listChats
+        setMessages([...chatlist])
+      } catch (e) {
+        console.log(e) //エラー処理
+      }
+    }
+    init()
+  }, [])
 
+  // チャットデータ送信
+  const submitChats = async (
+    messages: Array<ChatType>,
+    userName: string,
+    bodyText: string
+  ) => {
+    // チャットデータ送信用オブジェクト
+    const inputData = {
+      input: {
+        user_name: userName,
+        message_text: bodyText,
+        created_at: dayjs().format(),
+      },
+    }
+
+    // チャットデータ送信
+    try {
+      await API.graphql(graphqlOperation(createChatGraphQL, inputData))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  // チャットデータ削除（削除ボタン未実装）
+  const deleteChat = async (id: String) => {
+    const deleteData = {
+      input: {
+        id,
+      },
+    }
+    try {
+      await API.graphql(graphqlOperation(deleteChatGraphQL, deleteData))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  // 入力時処理（ステート変更）
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target
     if (target) {
@@ -40,21 +125,13 @@ const IndexPage = () => {
     }
   }
 
+  // 送信時処理
   const inputEl = useRef<HTMLInputElement>(null)
   const onClick = () => {
     if (inputEl && inputEl.current) {
       inputEl.current.readOnly = true
     }
-
-    setMessages([
-      ...messages,
-      {
-        userName,
-        text: bodyText,
-        date: dayjs().format(),
-      },
-    ])
-
+    submitChats(messages, userName, bodyText)
     setBodyText(``)
   }
 
@@ -63,12 +140,13 @@ const IndexPage = () => {
       <Container>
         <h1>Hello Next.js 👋</h1>
         <Box>
-          {messages.map((message, index) => (
+          {/* 表示欄コンポーネント */}
+          {messages.map((message: ChatType) => (
             <Message
-              key={`${message.userName} + ${index}`}
-              text={message.text}
-              userName={message.userName}
-              date={message.date}
+              key={message.id}
+              text={message.message_text}
+              userName={message.user_name}
+              date={message.created_at}
             />
           ))}
         </Box>
@@ -85,4 +163,4 @@ const IndexPage = () => {
   )
 }
 
-export default IndexPage
+export default ChatApps

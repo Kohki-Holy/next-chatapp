@@ -33,3 +33,29 @@ export const listChats = /* GraphQL */ `
     }
   }
 `;
+export const searchChats = /* GraphQL */ `
+  query SearchChats(
+    $filter: SearchableChatFilterInput
+    $sort: SearchableChatSortInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    searchChats(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        user_name
+        message_text
+        created_at
+        createdAt
+        updatedAt
+      }
+      nextToken
+      total
+    }
+  }
+`;

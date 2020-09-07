@@ -95,6 +95,67 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
+export type SearchableChatFilterInput = {
+  id?: SearchableIDFilterInput | null,
+  user_name?: SearchableStringFilterInput | null,
+  message_text?: SearchableStringFilterInput | null,
+  created_at?: SearchableStringFilterInput | null,
+  and?: Array< SearchableChatFilterInput | null > | null,
+  or?: Array< SearchableChatFilterInput | null > | null,
+  not?: SearchableChatFilterInput | null,
+};
+
+export type SearchableIDFilterInput = {
+  ne?: string | null,
+  gt?: string | null,
+  lt?: string | null,
+  gte?: string | null,
+  lte?: string | null,
+  eq?: string | null,
+  match?: string | null,
+  matchPhrase?: string | null,
+  matchPhrasePrefix?: string | null,
+  multiMatch?: string | null,
+  exists?: boolean | null,
+  wildcard?: string | null,
+  regexp?: string | null,
+};
+
+export type SearchableStringFilterInput = {
+  ne?: string | null,
+  gt?: string | null,
+  lt?: string | null,
+  gte?: string | null,
+  lte?: string | null,
+  eq?: string | null,
+  match?: string | null,
+  matchPhrase?: string | null,
+  matchPhrasePrefix?: string | null,
+  multiMatch?: string | null,
+  exists?: boolean | null,
+  wildcard?: string | null,
+  regexp?: string | null,
+};
+
+export type SearchableChatSortInput = {
+  field?: SearchableChatSortableFields | null,
+  direction?: SearchableSortDirection | null,
+};
+
+export enum SearchableChatSortableFields {
+  id = "id",
+  user_name = "user_name",
+  message_text = "message_text",
+  created_at = "created_at",
+}
+
+
+export enum SearchableSortDirection {
+  asc = "asc",
+  desc = "desc",
+}
+
+
 export type CreateChatMutationVariables = {
   input: CreateChatInput,
   condition?: ModelChatConditionInput | null,
@@ -181,6 +242,30 @@ export type ListChatsQuery = {
       updatedAt: string,
     } | null > | null,
     nextToken: string | null,
+  } | null,
+};
+
+export type SearchChatsQueryVariables = {
+  filter?: SearchableChatFilterInput | null,
+  sort?: SearchableChatSortInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type SearchChatsQuery = {
+  searchChats:  {
+    __typename: "SearchableChatConnection",
+    items:  Array< {
+      __typename: "Chat",
+      id: string,
+      user_name: string,
+      message_text: string | null,
+      created_at: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken: string | null,
+    total: number | null,
   } | null,
 };
 
