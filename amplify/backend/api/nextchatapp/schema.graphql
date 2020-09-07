@@ -1,4 +1,4 @@
-type Chat @model {
+type Chat @model @searchable {
   id: ID!
   user_name: String!
   message_text: String
