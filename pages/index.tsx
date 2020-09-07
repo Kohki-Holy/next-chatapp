@@ -21,23 +21,20 @@ API.configure(awsmobile)
 // GraphQL用関数
 import {
   createChat as createChatGraphQL,
-  deleteChat as deleteChatGraphQL,
+  // deleteChat as deleteChatGraphQL,
 } from '../src/graphql/mutations'
-import { getChat, listChats, searchChats } from '../src/graphql/queries'
-import {
-  onCreateChat,
-  onUpdateChat,
-  onDeleteChat,
-} from '../src/graphql/subscriptions'
+import { listChats } from '../src/graphql/queries'
+
 import { ListChatsQuery } from '../src/API'
 
 type ChatType = {
   id: string
   user_name: string
-  message_text: string
-  created_at: string
+  message_text: string | null
+  created_at: string | null
 }
 
+/*
 type DataProp = {
   data: {
     listChats?: {
@@ -45,16 +42,16 @@ type DataProp = {
     }
   }
 }
-
+*/
 const ChatApps = () => {
   const [userName, setUserName] = useState('')
   const [bodyText, setBodyText] = useState('')
 
-  const [messages, setMessages] = useState([])
+  const [messages, setMessages] = useState<ChatType[]>([])
 
   // チャットデータ取得
   useEffect(() => {
-    const querySort = Object.assign(
+    /* const querySort = Object.assign(
       {},
       {
         sort: {
@@ -63,12 +60,17 @@ const ChatApps = () => {
         },
         limit: 100, //デフォルトだと10個までしかとれない
       }
-    )
+    ) */
     const init = async () => {
       try {
         const res = await API.graphql(graphqlOperation(listChats))
-        const { items: chatlist } = res.data.listChats
-        setMessages([...chatlist])
+        if ('data' in res) {
+          const data = res.data as ListChatsQuery
+          if (data.listChats) {
+            const items = data.listChats.items as ChatType[]
+            setMessages(items)
+          }
+        }
       } catch (e) {
         console.log(e) //エラー処理
       }
@@ -78,7 +80,7 @@ const ChatApps = () => {
 
   // チャットデータ送信
   const submitChats = async (
-    messages: Array<ChatType>,
+    // messages: Array<ChatType>,
     userName: string,
     bodyText: string
   ) => {
@@ -100,6 +102,7 @@ const ChatApps = () => {
   }
 
   // チャットデータ削除（削除ボタン未実装）
+  /*
   const deleteChat = async (id: String) => {
     const deleteData = {
       input: {
@@ -112,6 +115,7 @@ const ChatApps = () => {
       console.log(e)
     }
   }
+  */
 
   // 入力時処理（ステート変更）
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -131,7 +135,7 @@ const ChatApps = () => {
     if (inputEl && inputEl.current) {
       inputEl.current.readOnly = true
     }
-    submitChats(messages, userName, bodyText)
+    submitChats(userName, bodyText)
     setBodyText(``)
   }
 

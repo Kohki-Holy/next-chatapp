@@ -7,12 +7,13 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 dayjs.extend(relativeTime)
 
 type Props = {
-  text: string
+  text: string | null
   userName: string
-  date: string
+  date: string | null
 }
 
 const Message: React.FC<Props> = ({ text, userName, date }) => {
+  if (date === null) date = dayjs().format()
   return <Box>{`${userName}: ${text}: ${dayjs(date).clone().fromNow()}`}</Box>
 }
 
