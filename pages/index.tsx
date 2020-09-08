@@ -23,9 +23,9 @@ import {
   createChat as createChatGraphQL,
   // deleteChat as deleteChatGraphQL,
 } from '../src/graphql/mutations'
-import { listChats } from '../src/graphql/queries'
+import { searchChats } from '../src/graphql/queries'
 
-import { ListChatsQuery } from '../src/API'
+import { SearchChatsQuery } from '../src/API'
 
 type ChatType = {
   id: string
@@ -51,23 +51,24 @@ const ChatApps = () => {
 
   // チャットデータ取得
   useEffect(() => {
-    /* const querySort = Object.assign(
+    const querySort = Object.assign(
       {},
       {
         sort: {
-          field: 'created_at', //作成日指定
-          direction: 'asc', //早い順
+          // Defaultはパーティションキー順になってしまうので対策
+          field: 'createdAt',
+          direction: 'asc',
         },
-        limit: 100, //デフォルトだと10個までしかとれない
+        limit: 30,
       }
-    ) */
+    )
     const init = async () => {
       try {
-        const res = await API.graphql(graphqlOperation(listChats))
+        const res = await API.graphql(graphqlOperation(searchChats, querySort))
         if ('data' in res) {
-          const data = res.data as ListChatsQuery
-          if (data.listChats) {
-            const items = data.listChats.items as ChatType[]
+          const data = res.data as SearchChatsQuery
+          if (data.searchChats) {
+            const items = data.searchChats.items as ChatType[]
             setMessages(items)
           }
         }

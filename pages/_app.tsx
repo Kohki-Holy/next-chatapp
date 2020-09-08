@@ -8,23 +8,29 @@ import {
 } from '@material-ui/core/styles'
 import { StylesProvider } from '@material-ui/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import red from '@material-ui/core/colors/red'
 import '../styles/global.scss'
+import { colors } from '@material-ui/core'
 
 const theme: Theme = createMuiTheme({
+  typography: {
+    fontFamily: [
+      'Noto Sans JP',
+      'Lato',
+      '游ゴシック Medium',
+      '游ゴシック体',
+      'Yu Gothic Medium',
+      'YuGothic',
+      'ヒラギノ角ゴ ProN',
+      'Hiragino Kaku Gothic ProN',
+      'メイリオ',
+      'Meiryo',
+      'ＭＳ Ｐゴシック',
+      'MS PGothic',
+      'sans-serif',
+    ].join(','),
+  },
   palette: {
-    primary: {
-      main: '#556cd6',
-    },
-    secondary: {
-      main: '#19857b',
-    },
-    error: {
-      main: red.A400,
-    },
-    background: {
-      default: '#fff',
-    },
+    primary: { main: colors.blue[800] }, // テーマの色
   },
 })
 

@@ -7,12 +7,16 @@ export type CreateChatInput = {
   user_name: string,
   message_text?: string | null,
   created_at?: string | null,
+  createdAt?: string | null,
+  updatedAt?: string | null,
 };
 
 export type ModelChatConditionInput = {
   user_name?: ModelStringInput | null,
   message_text?: ModelStringInput | null,
   created_at?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelChatConditionInput | null > | null,
   or?: Array< ModelChatConditionInput | null > | null,
   not?: ModelChatConditionInput | null,
@@ -63,6 +67,8 @@ export type UpdateChatInput = {
   user_name?: string | null,
   message_text?: string | null,
   created_at?: string | null,
+  createdAt?: string | null,
+  updatedAt?: string | null,
 };
 
 export type DeleteChatInput = {
@@ -74,6 +80,8 @@ export type ModelChatFilterInput = {
   user_name?: ModelStringInput | null,
   message_text?: ModelStringInput | null,
   created_at?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelChatFilterInput | null > | null,
   or?: Array< ModelChatFilterInput | null > | null,
   not?: ModelChatFilterInput | null,
@@ -100,6 +108,8 @@ export type SearchableChatFilterInput = {
   user_name?: SearchableStringFilterInput | null,
   message_text?: SearchableStringFilterInput | null,
   created_at?: SearchableStringFilterInput | null,
+  createdAt?: SearchableStringFilterInput | null,
+  updatedAt?: SearchableStringFilterInput | null,
   and?: Array< SearchableChatFilterInput | null > | null,
   or?: Array< SearchableChatFilterInput | null > | null,
   not?: SearchableChatFilterInput | null,
@@ -147,6 +157,8 @@ export enum SearchableChatSortableFields {
   user_name = "user_name",
   message_text = "message_text",
   created_at = "created_at",
+  createdAt = "createdAt",
+  updatedAt = "updatedAt",
 }
 
 

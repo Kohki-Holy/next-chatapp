@@ -3,4 +3,6 @@ type Chat @model @searchable {
   user_name: String!
   message_text: String
   created_at: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
 }
