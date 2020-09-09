@@ -1,7 +1,5 @@
 import { TextField, IconButton } from '@material-ui/core'
 
-import { RefObject } from 'react'
-
 import SendIcon from '@material-ui/icons/Send'
 import styled from 'styled-components'
 
@@ -10,7 +8,6 @@ type Props = {
   bodyText: String
   onChange: Function
   onClick: Function
-  inputEl: RefObject<HTMLInputElement>
 }
 
 const Style = styled.div`
@@ -34,7 +31,6 @@ const ChatBox: React.FC<Props> = ({
   bodyText,
   onChange,
   onClick,
-  inputEl,
 }) => {
   return (
     <Style>
@@ -44,7 +40,6 @@ const ChatBox: React.FC<Props> = ({
         label='名前'
         size='small'
         onChange={(e) => onChange(e)}
-        inputRef={inputEl}
         value={userName}
       ></TextField>
       <TextField
